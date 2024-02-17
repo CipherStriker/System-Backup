@@ -2,7 +2,8 @@
 Type=Application
 Name=IPs
 Icon=/home/kali/BurpPro/burp_v2023.2.2/burp.png
-Exec=/home/kali/tools/test.sh
+# Exec=/home/kali/tools/test.sh
+Exec=$HOME/CustomCodes/eth0.sh
 Terminal=false
 StartupNotify=false
 Hidden=false
