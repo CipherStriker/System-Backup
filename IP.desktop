@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=IPs
+Icon=/home/kali/BurpPro/burp_v2023.2.2/burp.png
+Exec=/home/kali/tools/test.sh
+Terminal=false
+StartupNotify=false
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=Display IP
+Name=Display IP
+Comment[en_US]=Display IP address in taskbar
+Comment=Display IP address in taskbar
