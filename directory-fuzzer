@@ -1,0 +1,9 @@
+# All Fuzzers
+all-fuzzers(){
+echo "ffuf -u "http://$IP/FUZZ" -w ~/tools/SecLists/Fuzzing/XSS-Fuzzing -fs 0 -fc 404,403"
+echo 'wfuzz -c -z file,tools/SecLists/Fuzzing/XSS-Fuzzing --hh 40060 "http://offsecwp/?xss=FUZZ"'
+echo "gobuster dir -u http://$IP/ -w <wordlist_file>"
+}
+gobuster_auto(){
+gobuster dir -u http://$1/ -w /usr/share/wordlists/dirb/common.txt
+}

