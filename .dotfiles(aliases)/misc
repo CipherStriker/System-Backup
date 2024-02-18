@@ -70,3 +70,7 @@ echo "$1" | wc -c
 rar_extract(){
 sudo unrar e $1
 }
+# Encode - Decode
+urldecode(){
+python ~/CustomCodes/url-decode.py $1
+}
