@@ -78,3 +78,6 @@ cmkdir(){
 mkdir $1
 cd $1
 }
+crmdir(){
+rm -rf $1
+}
