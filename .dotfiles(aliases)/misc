@@ -74,3 +74,7 @@ sudo unrar e $1
 urldecode(){
 python ~/CustomCodes/url-decode.py $1
 }
+cmkdir(){
+mkdir $1
+cd $1
+}
