@@ -58,3 +58,6 @@ history | grep "$1"
 find_word(){
 grep -Rnw '.' -e '$1'
 }
+startapache(){
+sudo service apache2 start
+}
