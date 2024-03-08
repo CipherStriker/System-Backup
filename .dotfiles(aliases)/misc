@@ -81,3 +81,10 @@ cd $1
 crmdir(){
 rm -rf $1
 }
+extract(){
+echo "tar –xvzf [archive name]"
+echo "gzip -d example.tar.gz"
+echo "gunzip example1.tar.gz"
+echo "unzip file.zip -d destination_folder"
+echo "7z x zipfile.zip"
+}
