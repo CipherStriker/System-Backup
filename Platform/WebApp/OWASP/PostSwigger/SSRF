@@ -1,0 +1,105 @@
+POST /config/login HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://192.168.10.1/index.html
+Content-Type: application/json;charset=utf-8
+Content-Length: 2
+Origin: http://192.168.10.1
+Connection: close
+Cookie: encoderName=ip250-test-2; model=HD-NUC-I5; lang=en
+
+{}
+
+HTTP/1.1 200 nonce generated
+X-Xss-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: same-origin
+Content-Security-Policy: script-src 'self'
+X-Content-Type-Options: nosniff
+Expires: 0
+Pragma: no-cache
+Cache-Control: no-cache, no-store, must-revalidate
+Content-Length: 48
+
+{"digest":"sha1","nonce":"17055008867050447641"}
+
+--------------------
+
+POST /config/login HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://192.168.10.1/index.html
+Content-Type: application/json;charset=utf-8
+Content-Length: 86
+Origin: http://192.168.10.1
+Connection: close
+Cookie: encoderName=ip250-test-2; model=HD-NUC-I5; lang=en
+
+{"password":"ac81596ab4899ed50052c3af07540d5ad953d821","nonce":"17055008867050447641"}
+
+HTTP/1.1 200 OK
+X-Xss-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: same-origin
+Content-Security-Policy: script-src 'self'
+X-Content-Type-Options: nosniff
+Expires: 0
+Pragma: no-cache
+Cache-Control: no-cache, no-store, must-revalidate
+Content-Length: 54
+
+{"session":"912437d540cfca15c1e3654117b3ab4d0776d80f"}
+
+-----------------------------
+
+
+GET /config/capabilities HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://192.168.10.1/index.html
+Connection: close
+Cookie: encoderName=ip250-test-2; model=HD-NUC-I5; lang=en; AUTH=912437d540cfca15c1e3654117b3ab4d0776d80f
+
+
+GET /config/encoder_info HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://192.168.10.1/index.html
+Connection: close
+Cookie: encoderName=ip250-test-2; model=HD-NUC-I5; lang=en; AUTH=912437d540cfca15c1e3654117b3ab4d0776d80f
+
+GET /config/get_deployment_state HTTP/1.1
+Host: 192.168.10.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: application/json, text/plain, */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://192.168.10.1/index.html
+Connection: close
+Cookie: encoderName=ip250-test-2; model=HD-NUC-I5; lang=en; AUTH=912437d540cfca15c1e3654117b3ab4d0776d80f
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+X-Xss-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: same-origin
+Content-Security-Policy: script-src 'self'
+X-Content-Type-Options: nosniff
+Expires: 0
+Pragma: no-cache
+Cache-Control: no-cache, no-store, must-revalidate
+Content-Length: 38886
+
+{   "alarm_actions": [     {      "id": "rec_pre",      "name": "Start recording",      "description": "Start recording all enabled video channels for the duration of the action or until stopped. Note this action only has effect if recording is not enabled. Specify a pre-roll duration up to 1 minute and, optionally, a recording duration up to 12 hours.",      "params": [        {            "param": "frontend_only_opt_duration",            "description": "Recording duration",            "type": "singleselect_icon",            "validation": "",            "value": [{                "name": "Until stopped",                "value": "off",                "nested": []            }, {

