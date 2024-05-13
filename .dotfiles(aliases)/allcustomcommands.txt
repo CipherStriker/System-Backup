@@ -259,3 +259,25 @@ crawl(){
 # echo "http://192.168.182.126/" | hakrawler -d 2 -u | grep -v -E "assets|.com"
 echo http://$1/ | hakrawler -d 2 -u | grep -v -E "$2|$3"
 }
+# FFUF
+ffuf_dir(){
+ffuf -u "$1FUZZ" -w ~/tools/wordlist/directory-list-2.3-medium.txt -c
+}
+ffuf_files(){
+ffuf -u "$1FUZZ" -w ~/tools/wordlist/raft-medium-files-lowercase.txt -c
+}
+ffuf_extension(){
+ffuf -u "$1FUZZ" -w ~/tools/wordlist/directory-list-2.3-medium.txt -c -e .php,.txt
+}
+
+# Set target system after initial foothold
+after_initial_foothold(){
+print "which python & which python3"
+print "python -c 'import pty; pty.spawn(\"/bin/bash\")'"
+print "python3 -c 'import pty; pty.spawn(\"/bin/bash\")'"
+print "Ctrl + z"
+print "stty raw -echo;fg"
+print "export TERM=xterm"
+# If bash shell does not get activate do 
+print "exec bash --login"
+}
