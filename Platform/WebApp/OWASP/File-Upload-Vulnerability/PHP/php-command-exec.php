@@ -1,0 +1,5 @@
+<?php
+
+passthru("whoami");
+
+?>
