@@ -1,3 +1,5 @@
+# Cat command for python. this script lets you combine multiple files in certain format.
+# Eg - user1:pass1
 import argparse
 import sys
 
