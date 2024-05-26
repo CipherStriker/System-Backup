@@ -1,4 +1,4 @@
-# Cat command for python. this script lets you combine multiple files in certain format.
+# Cat command for python. this script lets you combine multiple files in certain combination format; namely pitch_fork and cluster_bomb.
 # Eg - user1:pass1
 import argparse
 import sys
