@@ -14,7 +14,7 @@ def combine_files(file1, file2):
             #print(f"{username}:{password}")
             auth_value = b64encode(f"{username}:{password}".encode('utf-8')).decode('utf-8')
             header = {'Authorization': f'Basic {auth_value}'}
-            req = requests.get('http://192.168.0.103:8080/host-manager/html', headers=header)
+            req = requests.get('http://192.168.0.101:8080/host-manager/html', headers=header)
             #print(auth_value, req)
             if req.ok:
             	decoded = b64decode(auth_value).decode('utf-8')
