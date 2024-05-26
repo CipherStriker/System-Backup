@@ -281,3 +281,17 @@ print "export TERM=xterm"
 # If bash shell does not get activate do 
 print "exec bash --login"
 }
+go_subdomain(){
+gobuster vhost -u $1 -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+}
+ffuf_subdomain(){
+# ffuf -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.lambda.ctfio.com" -u https://lambda.ctfio.com/
+ffuf -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.$2" -u $1
+}
+pcat(){ # combine 2 files
+python3 /home/kali/System-Planner/System-Setup/CustomScripts/pcat2.py $1 $2 $3 $4
+}
+
+rar_extract(){
+sudo unrar e $1
+}
