@@ -1,0 +1,5 @@
+# Sourcing Custom Commands
+source $HOME/.dotfiles/allCustomCommand
+source $HOME/.dotfiles/commandNotes
+source /usr/share/autojump/autojump.sh
+source $HOME/System-Planner/System-Setup/CustomScripts/autoZSHcompletion.zsh
