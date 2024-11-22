@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Burp-Pro
-Icon=/home/kali/BurpPro/burp_v2023.2.2/burp.png
-Exec=/home/kali/BurpPro/burp_v2023.2.2/burp.sh
-Name[en_US]=Burpsuite_2023
-Terminal=false
-StartupNotify=false
