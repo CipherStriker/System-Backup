@@ -258,10 +258,29 @@ print 'for i in {0..100}; do echo $i; done >> numbers.txt'
 }
 bash-for-files(){
 print '
+# Does not work if the lines have spaces in it.. use bash-for-files-while for it.
 for line in $(cat filename.txt); do
     echo "$line"
 done'
 }
+bash-for-files-while(){
+print '
+while IFS= read -r line; do
+    echo "$line"
+done < filename
+
+OR
+while IFS= read -r line; do echo "$line"; done < filename
+'
+}
+
+extract-specific-line-from-file(){
+print "
+single line : sed -n 'LINE_NUMBERp' OR awk 'NR==LINE_NUMBER'
+single line but not continous : sed -n -e 'LINE1p' -e 'LINE2p' -e 'LINE3p' OR awk 'NR==LINE1 || NR==LINE2 || NR==LINE3'
+Range of lines : sed -n 'START_LINE,END_LINEp' OR awk 'NR>=START_LINE && NR<=END_LINE'"
+}
+
 #------------------------------CTF/Bug Bounty------------------------------#
 steganography-Toolkit(){
 print '

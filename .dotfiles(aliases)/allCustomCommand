@@ -188,6 +188,21 @@ To get out of the folder : deactivate
 "
 }
 
+lls(){
+ls -la --color -h --group-directories-first
+}
+
+rbl(){
+sed -i '/^$/d' $1
+}
+
+fbl(){
+grep -E --line-number --with-filename '^$' $1
+}
+
+export XDG_DATA_DIRS=/var/lib/flatpak/exports/share:/home/kali/.local/share/flatpak/exports/share:$$XDG_DATA_HOME
+
+
 
 #-------------Docker Related----------------#
 
@@ -310,7 +325,9 @@ smtp4user(){
 smtp-user-enum -M VRFY -U ~/tools/SecLists/Usernames/Names/names.txt -t $1
 }
 
-
+gtfo(){
+lynx -dump https://raw.githubusercontent.com/GTFOBins/GTFOBins.github.io/refs/heads/master/_gtfobins/$1.md
+}
 
 #---------------------------------------Windows System Related---------------------------------------#
 
@@ -359,6 +376,12 @@ crawl(){
 # echo "http://192.168.182.126/" | hakrawler -d 2 -u | grep -v -E "assets|.com"
 echo http://$1/ | hakrawler -d 2 -u | grep -v -E "$2|$3"
 }
+
+# Copy php reverse shell file
+php-rev-file(){
+cat $HOME/System-Planner/System-Setup/Platform/WebApp/OWASP/php-reverse-shell.php | xclip -selection clipboard
+}
+
 
 #--------------Encode - Decode--------------#
 
