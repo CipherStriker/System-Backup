@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-   
+# Imported from Hecdump : https://github.com/LeonardoE95/yt-en/blob/main/src/2024-07-10-windows-privesc-windows-reverse-shells/content/notes.txt
+
 import sys
 import base64
    
